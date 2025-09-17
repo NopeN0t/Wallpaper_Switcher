@@ -43,8 +43,8 @@ namespace Wallpaper_Switcher
             bg_switcher.Load_State();
             Source_Box.Text = bg_switcher.BG_Source;
             Timer_Box.Text = bg_switcher.Change_Interval.ToString();
-            Timer.Text = "Timer      :  " + SecondsToString(bg_switcher.Change_Interval);
-            Elapsed.Text = "Elapsed :  " + SecondsToString(bg_switcher.Elasped);
+            Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
+            Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
             foreach (var file in bg_switcher.GetImages())
                 DemoList.Items.Add(Path.GetFileName(file));
             if (bg_switcher.Image_Index != 0)
@@ -82,6 +82,7 @@ namespace Wallpaper_Switcher
 
         private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            //Temp implementaion
             this.Show();
             PlaySwitchAnimation();
         }

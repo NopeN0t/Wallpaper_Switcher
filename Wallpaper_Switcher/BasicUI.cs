@@ -8,6 +8,7 @@ namespace Wallpaper_Switcher
     partial class MainForm
     {
         //This part stores minor event handlers and UI logic that doesn't need to change often or done implementing
+        //It is recommend to move all of this back to MainForm.cs if you want to view code by double clicking
         private void OK_Button_Click(object sender, EventArgs e)
         {
             StartTimer();
@@ -28,6 +29,17 @@ namespace Wallpaper_Switcher
         private void Set_Image_Click(object sender, EventArgs e)
         {
             bg_switcher.Change_BG(DemoList.SelectedIndex);
+            bg_switcher.Image_Index = DemoList.SelectedIndex;
+        }
+        private void NextImage_Button_Click(object sender, EventArgs e)
+        {
+            bg_switcher.Change_BG(++bg_switcher.Image_Index);
+            DemoList.SelectedIndex = bg_switcher.Image_Index;
+        }
+        private void LastImage_Button_Click(object sender, EventArgs e)
+        {
+            bg_switcher.Change_BG(--bg_switcher.Image_Index);
+            DemoList.SelectedIndex = bg_switcher.Image_Index;
         }
         private void More_Button_Click(object sender, EventArgs e)
         {
@@ -59,6 +71,35 @@ namespace Wallpaper_Switcher
             try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
             catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Load Failed", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             Selected_Image.Text = $"Slected Image : {DemoList.SelectedIndex}";
+        }
+        private void On_Visiblity_Change(object sender, EventArgs e)
+        {
+            if (!this.Visible)
+                Preview.Image?.Dispose();
+            else
+            {
+                try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
+                catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Load Failed", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+        }
+        private void Set_Button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int parsed = int.Parse(Timer_Box.Text);
+                if (parsed <= 0) throw new Exception("Interval must be greater than 0");
+                bg_switcher.Change_Interval = parsed;
+                Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
+
+                if (!string.IsNullOrWhiteSpace(Elapsed_box.Text))
+                {
+                    parsed = int.Parse(Elapsed_box.Text);
+                    if (parsed >= bg_switcher.Change_Interval)
+                        bg_switcher.Elasped = bg_switcher.Change_Interval;
+                    bg_switcher.Elasped = parsed;
+                }
+            }
+            catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         [DataMember] public int Image_Index { get; set; }
     }
 
-    public class BG_Switcher
+    public class BG_Switcher : IDisposable
     {
         public string BG_Source { get; set; }
         public int Change_Interval { get; set; } = 1800; //Seconds
@@ -31,6 +31,11 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         private readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
         private System.Timers.Timer timer;
 
+        public void Dispose()
+        {
+            Stop();
+            Image_List.Clear();
+        }
         public void Start()
         {
             if (IsRunning) return;
@@ -57,11 +62,12 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         }
         public void Stop()
         {
-            timer.Stop();
+            timer?.Stop();
         }
         public void Change_BG(int index)
         {
-            if (index > Image_List.Count - 1) index = 0;
+            //This prevent overflow/underflow
+            if (index > Image_List.Count - 1 || index < 0) index = 0;
             OnBackgroundChanged?.Invoke(this, Image_List[index]);
             Wallpaper.Set(Image_List[index]);
         }
@@ -88,7 +94,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
                 var serializer = new DataContractJsonSerializer(typeof(SwitcherState));
                 var state = (SwitcherState)serializer.ReadObject(stream);
                 if (BG_Source == null) BG_Source = state.BG_Source;
-                if (Change_Interval != 1800) Change_Interval = state.Change_Interval;
+                if (Change_Interval != 1800 || state.Change_Interval != 1800) Change_Interval = state.Change_Interval;
                 Elasped = state.Elasped;
                 Image_Index = state.Image_Index;
             }

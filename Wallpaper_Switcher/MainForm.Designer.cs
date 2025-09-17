@@ -50,6 +50,9 @@
             this.Elapsed_CFG = new System.Windows.Forms.Label();
             this.Elapsed_box = new System.Windows.Forms.TextBox();
             this.Startup = new System.Windows.Forms.CheckBox();
+            this.NextImage_Button = new System.Windows.Forms.Button();
+            this.LastImage_Button = new System.Windows.Forms.Button();
+            this.Set_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Preview)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,7 +82,7 @@
             this.Reset_Button.Location = new System.Drawing.Point(637, 294);
             this.Reset_Button.Name = "Reset_Button";
             this.Reset_Button.Size = new System.Drawing.Size(105, 28);
-            this.Reset_Button.TabIndex = 7;
+            this.Reset_Button.TabIndex = 12;
             this.Reset_Button.Text = "Reset Timer";
             this.Reset_Button.UseVisualStyleBackColor = true;
             this.Reset_Button.Click += new System.EventHandler(this.Reset_Button_Click);
@@ -89,18 +92,18 @@
             this.Elapsed.AutoSize = true;
             this.Elapsed.Location = new System.Drawing.Point(12, 294);
             this.Elapsed.Name = "Elapsed";
-            this.Elapsed.Size = new System.Drawing.Size(88, 20);
+            this.Elapsed.Size = new System.Drawing.Size(93, 20);
             this.Elapsed.TabIndex = 3;
-            this.Elapsed.Text = "Elapsed : 0";
+            this.Elapsed.Text = "Elapsed = 0";
             // 
             // Timer
             // 
             this.Timer.AutoSize = true;
             this.Timer.Location = new System.Drawing.Point(12, 265);
             this.Timer.Name = "Timer";
-            this.Timer.Size = new System.Drawing.Size(80, 20);
+            this.Timer.Size = new System.Drawing.Size(81, 20);
             this.Timer.TabIndex = 4;
-            this.Timer.Text = "Timer      : ";
+            this.Timer.Text = "Timer      =";
             // 
             // Timer_Box
             // 
@@ -193,7 +196,7 @@
             // 
             // Set_Image
             // 
-            this.Set_Image.Location = new System.Drawing.Point(637, 97);
+            this.Set_Image.Location = new System.Drawing.Point(637, 80);
             this.Set_Image.Name = "Set_Image";
             this.Set_Image.Size = new System.Drawing.Size(105, 28);
             this.Set_Image.TabIndex = 7;
@@ -206,15 +209,15 @@
             this.Elapsed_CFG.AutoSize = true;
             this.Elapsed_CFG.Location = new System.Drawing.Point(425, 47);
             this.Elapsed_CFG.Name = "Elapsed_CFG";
-            this.Elapsed_CFG.Size = new System.Drawing.Size(67, 20);
+            this.Elapsed_CFG.Size = new System.Drawing.Size(114, 20);
             this.Elapsed_CFG.TabIndex = 16;
-            this.Elapsed_CFG.Text = "Elapsed";
+            this.Elapsed_CFG.Text = "Elapsed (sec) :";
             // 
             // Elapsed_box
             // 
-            this.Elapsed_box.Location = new System.Drawing.Point(526, 44);
+            this.Elapsed_box.Location = new System.Drawing.Point(545, 44);
             this.Elapsed_box.Name = "Elapsed_box";
-            this.Elapsed_box.Size = new System.Drawing.Size(216, 26);
+            this.Elapsed_box.Size = new System.Drawing.Size(197, 26);
             this.Elapsed_box.TabIndex = 6;
             // 
             // Startup
@@ -223,16 +226,49 @@
             this.Startup.Location = new System.Drawing.Point(429, 152);
             this.Startup.Name = "Startup";
             this.Startup.Size = new System.Drawing.Size(134, 24);
-            this.Startup.TabIndex = 17;
+            this.Startup.TabIndex = 10;
             this.Startup.Text = "Run on startup";
             this.Startup.UseVisualStyleBackColor = true;
             this.Startup.CheckedChanged += new System.EventHandler(this.Startup_CheckedChanged);
+            // 
+            // NextImage_Button
+            // 
+            this.NextImage_Button.Location = new System.Drawing.Point(637, 114);
+            this.NextImage_Button.Name = "NextImage_Button";
+            this.NextImage_Button.Size = new System.Drawing.Size(105, 28);
+            this.NextImage_Button.TabIndex = 8;
+            this.NextImage_Button.Text = "Next Image";
+            this.NextImage_Button.UseVisualStyleBackColor = true;
+            this.NextImage_Button.Click += new System.EventHandler(this.NextImage_Button_Click);
+            // 
+            // LastImage_Button
+            // 
+            this.LastImage_Button.Location = new System.Drawing.Point(637, 148);
+            this.LastImage_Button.Name = "LastImage_Button";
+            this.LastImage_Button.Size = new System.Drawing.Size(105, 28);
+            this.LastImage_Button.TabIndex = 9;
+            this.LastImage_Button.Text = "Last Image";
+            this.LastImage_Button.UseVisualStyleBackColor = true;
+            this.LastImage_Button.Click += new System.EventHandler(this.LastImage_Button_Click);
+            // 
+            // Set_Button
+            // 
+            this.Set_Button.Location = new System.Drawing.Point(526, 294);
+            this.Set_Button.Name = "Set_Button";
+            this.Set_Button.Size = new System.Drawing.Size(105, 28);
+            this.Set_Button.TabIndex = 11;
+            this.Set_Button.Text = "Set Timer";
+            this.Set_Button.UseVisualStyleBackColor = true;
+            this.Set_Button.Click += new System.EventHandler(this.Set_Button_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(754, 331);
+            this.Controls.Add(this.Set_Button);
+            this.Controls.Add(this.LastImage_Button);
+            this.Controls.Add(this.NextImage_Button);
             this.Controls.Add(this.Startup);
             this.Controls.Add(this.Elapsed_box);
             this.Controls.Add(this.Elapsed_CFG);
@@ -259,6 +295,7 @@
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Wallpaper Switcher";
+            this.VisibleChanged += new System.EventHandler(this.On_Visiblity_Change);
             ((System.ComponentModel.ISupportInitialize)(this.Preview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -287,6 +324,9 @@
         private System.Windows.Forms.Label Elapsed_CFG;
         private System.Windows.Forms.TextBox Elapsed_box;
         private System.Windows.Forms.CheckBox Startup;
+        private System.Windows.Forms.Button NextImage_Button;
+        private System.Windows.Forms.Button LastImage_Button;
+        private System.Windows.Forms.Button Set_Button;
     }
 }
 

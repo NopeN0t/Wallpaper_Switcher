@@ -24,27 +24,32 @@ namespace Wallpaper_Switcher
         private string SecondsToString(int time)
         {
             int sec = time % 60;
-            int min = time / 60;
-            int hrs = min / 60;
-            return $"{hrs}hr {min}min  {sec}sec";
+            int min = (time / 60) % 60;
+            int hrs = (time / 3600) % 24;
+            int day = (time / 3600) / 24;
+            return $"{day}:{hrs:00}:{min:00}:{sec:00}";
         }
         private void HandleTick()
         {
             if (!this.Visible && !IconMenu.Visible) return;
-            if (this.Visible)
+            try //This part tends to throw exception when form is closed while updating UI
             {
-                this.Invoke(new Action(() =>
+                if (this.Visible)
                 {
-                Elapsed.Text = "Elapsed :  " + SecondsToString(bg_switcher.Elasped);
-                }));
-            }
-            if (IconMenu.Visible)
-            {
-                this.Invoke(new Action(() =>
+                    this.Invoke(new Action(() =>
+                    {
+                        Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
+                    }));
+                }
+                if (IconMenu.Visible)
                 {
-                
-                }));
+                    this.Invoke(new Action(() =>
+                    {
+
+                    }));
+                }
             }
+            catch { }
         }
         private void StartTimer()
         {
