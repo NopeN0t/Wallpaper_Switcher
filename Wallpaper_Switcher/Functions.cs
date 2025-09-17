@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Wallpaper_Switcher
 {
@@ -44,6 +45,16 @@ namespace Wallpaper_Switcher
                 
                 }));
             }
+        }
+        private void StartTimer()
+        {
+            try { bg_switcher.Start(); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            this.Hide();
         }
     }
 }

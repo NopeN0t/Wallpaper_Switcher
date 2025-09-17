@@ -49,6 +49,7 @@
             this.Set_Image = new System.Windows.Forms.Button();
             this.Elapsed_CFG = new System.Windows.Forms.Label();
             this.Elapsed_box = new System.Windows.Forms.TextBox();
+            this.Startup = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.Preview)).BeginInit();
             this.SuspendLayout();
             // 
@@ -216,11 +217,23 @@
             this.Elapsed_box.Size = new System.Drawing.Size(216, 26);
             this.Elapsed_box.TabIndex = 6;
             // 
+            // Startup
+            // 
+            this.Startup.AutoSize = true;
+            this.Startup.Location = new System.Drawing.Point(429, 152);
+            this.Startup.Name = "Startup";
+            this.Startup.Size = new System.Drawing.Size(134, 24);
+            this.Startup.TabIndex = 17;
+            this.Startup.Text = "Run on startup";
+            this.Startup.UseVisualStyleBackColor = true;
+            this.Startup.CheckedChanged += new System.EventHandler(this.Startup_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(754, 331);
+            this.Controls.Add(this.Startup);
             this.Controls.Add(this.Elapsed_box);
             this.Controls.Add(this.Elapsed_CFG);
             this.Controls.Add(this.Set_Image);
@@ -273,6 +286,7 @@
         private System.Windows.Forms.Button Set_Image;
         private System.Windows.Forms.Label Elapsed_CFG;
         private System.Windows.Forms.TextBox Elapsed_box;
+        private System.Windows.Forms.CheckBox Startup;
     }
 }
 
