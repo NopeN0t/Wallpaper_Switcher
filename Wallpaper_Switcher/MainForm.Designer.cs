@@ -73,7 +73,7 @@
             this.OK_Button.Name = "OK_Button";
             this.OK_Button.Size = new System.Drawing.Size(104, 28);
             this.OK_Button.TabIndex = 4;
-            this.OK_Button.Text = "OK / Start";
+            this.OK_Button.Text = "OK";
             this.OK_Button.UseVisualStyleBackColor = true;
             this.OK_Button.Click += new System.EventHandler(this.OK_Button_Click);
             // 

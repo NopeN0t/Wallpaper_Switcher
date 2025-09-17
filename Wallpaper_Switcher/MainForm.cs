@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using Wallpaper_Switcher.InternalLibs.BG_Switcher;
 
@@ -55,6 +56,7 @@ namespace Wallpaper_Switcher
 
             //Setup events
             this.FormClosing += (s, e) => { bg_switcher.Save_State(); bg_switcher.Stop(); };
+            this.Shown += (s, e) => { if (Startup.Checked) this.Hide(); }; //This make sure form is loaded before hiding
             bg_switcher.OnBackgroundChanged += (s, e) => PlaySwitchAnimation();
             bg_switcher.TimerTick += (s, e) => HandleTick();
 
