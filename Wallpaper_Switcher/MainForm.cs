@@ -2,8 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using Wallpaper_Switcher.InternalLibs.BG_Switcher;
 
@@ -30,7 +28,8 @@ namespace Wallpaper_Switcher
         {
             //Setup More Menu
             MorePage = new Control[] { Timer_Text, Timer_Box, Reset_Button, Total_Text, Selected_Image ,Set_Image,
-                                       Elapsed_CFG, Elapsed_box, Startup};
+                                       Elapsed_CFG, Elapsed_box, Startup, NextImage_Button, LastImage_Button,
+                                       AutoSave, AutoSave_Box, Set_Autosave_Button, Set_Button};
             this.Width = 440;
             foreach (var ctrl in MorePage) ctrl.Enabled = false;
 
@@ -44,10 +43,10 @@ namespace Wallpaper_Switcher
             if (bg_switcher.Load_State())
             {
                 Source_Box.Text = bg_switcher.BG_Source;
-                AutoSave_Box.Text = bg_switcher.AutoSave_Interval.ToString();
                 RefreshImages();
             }
             else MessageBox.Show("Images path doesn't exists", "LoadFailed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            AutoSave_Box.Text = bg_switcher.AutoSave_Interval.ToString();
             Timer_Box.Text = bg_switcher.Change_Interval.ToString();
             Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
             Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);

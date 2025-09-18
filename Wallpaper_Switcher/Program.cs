@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Wallpaper_Switcher
@@ -14,9 +12,19 @@ namespace Wallpaper_Switcher
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            // Check if another instance is already running
+            using (Mutex mutex = new Mutex(true, "Wallpaper_Switcher", out bool isNewInstance))
+            {
+                if (!isNewInstance)
+                {
+                    MessageBox.Show("Another instance of the program is already running.", "Instance Running", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
+            }
         }
     }
 }

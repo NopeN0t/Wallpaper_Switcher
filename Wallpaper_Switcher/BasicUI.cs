@@ -29,18 +29,16 @@ namespace Wallpaper_Switcher
         }
         private void Set_Image_Click(object sender, EventArgs e)
         {
-            bg_switcher.Change_BG(DemoList.SelectedIndex);
             bg_switcher.Image_Index = DemoList.SelectedIndex;
+            bg_switcher.Change_BG(DemoList.SelectedIndex);
         }
         private void NextImage_Button_Click(object sender, EventArgs e)
         {
             bg_switcher.Change_BG(++bg_switcher.Image_Index);
-            DemoList.SelectedIndex = bg_switcher.Image_Index;
         }
         private void LastImage_Button_Click(object sender, EventArgs e)
         {
             bg_switcher.Change_BG(--bg_switcher.Image_Index);
-            DemoList.SelectedIndex = bg_switcher.Image_Index;
         }
         private void More_Button_Click(object sender, EventArgs e)
         {

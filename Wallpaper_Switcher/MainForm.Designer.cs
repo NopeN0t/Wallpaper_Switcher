@@ -88,7 +88,7 @@
             this.Reset_Button.Margin = new System.Windows.Forms.Padding(4);
             this.Reset_Button.Name = "Reset_Button";
             this.Reset_Button.Size = new System.Drawing.Size(131, 35);
-            this.Reset_Button.TabIndex = 12;
+            this.Reset_Button.TabIndex = 14;
             this.Reset_Button.Text = "Reset Timer";
             this.Reset_Button.UseVisualStyleBackColor = true;
             this.Reset_Button.Click += new System.EventHandler(this.Reset_Button_Click);
@@ -281,7 +281,7 @@
             this.Set_Button.Margin = new System.Windows.Forms.Padding(4);
             this.Set_Button.Name = "Set_Button";
             this.Set_Button.Size = new System.Drawing.Size(131, 35);
-            this.Set_Button.TabIndex = 11;
+            this.Set_Button.TabIndex = 13;
             this.Set_Button.Text = "Set Timer";
             this.Set_Button.UseVisualStyleBackColor = true;
             this.Set_Button.Click += new System.EventHandler(this.Set_Button_Click);
@@ -300,7 +300,7 @@
             this.AutoSave_Box.Location = new System.Drawing.Point(693, 230);
             this.AutoSave_Box.Name = "AutoSave_Box";
             this.AutoSave_Box.Size = new System.Drawing.Size(148, 30);
-            this.AutoSave_Box.TabIndex = 18;
+            this.AutoSave_Box.TabIndex = 11;
             // 
             // Set_Autosave_Button
             // 
@@ -308,7 +308,7 @@
             this.Set_Autosave_Button.Margin = new System.Windows.Forms.Padding(4);
             this.Set_Autosave_Button.Name = "Set_Autosave_Button";
             this.Set_Autosave_Button.Size = new System.Drawing.Size(79, 35);
-            this.Set_Autosave_Button.TabIndex = 19;
+            this.Set_Autosave_Button.TabIndex = 12;
             this.Set_Autosave_Button.Text = "Set";
             this.Set_Autosave_Button.UseVisualStyleBackColor = true;
             this.Set_Autosave_Button.Click += new System.EventHandler(this.Set_Autosave_Button_Click);
