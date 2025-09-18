@@ -24,6 +24,7 @@ namespace Wallpaper_Switcher
             {
                 Source_Box.Text = fbd.SelectedPath;
                 bg_switcher.BG_Source = fbd.SelectedPath;
+                RefreshImages();
             }
         }
         private void Set_Image_Click(object sender, EventArgs e)
@@ -78,8 +79,12 @@ namespace Wallpaper_Switcher
                 Preview.Image?.Dispose();
             else
             {
-                try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
-                catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Load Failed", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                try
+                {
+                    try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
+                    catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Load Failed", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                catch { }//MessageBox.Show("Failed to locate files", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
         private void Set_Button_Click(object sender, EventArgs e)
@@ -97,7 +102,22 @@ namespace Wallpaper_Switcher
                     if (parsed >= bg_switcher.Change_Interval)
                         bg_switcher.Elasped = bg_switcher.Change_Interval;
                     bg_switcher.Elasped = parsed;
+                    Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
                 }
+            }
+            catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void Set_Autosave_Button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(AutoSave_Box.Text))
+                    return;
+                int parsed = int.Parse(AutoSave_Box.Text);
+                if (parsed <= 1) throw new Exception("Interval must be greater than 0");
+                bg_switcher.AutoSave_Interval = parsed;
+                bg_switcher.Save_State();
             }
             catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }

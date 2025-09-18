@@ -41,18 +41,16 @@ namespace Wallpaper_Switcher
             Preview.SizeMode = PictureBoxSizeMode.Zoom;
 
             //Load previous state
-            bg_switcher.Load_State();
-            Source_Box.Text = bg_switcher.BG_Source;
+            if (bg_switcher.Load_State())
+            {
+                Source_Box.Text = bg_switcher.BG_Source;
+                AutoSave_Box.Text = bg_switcher.AutoSave_Interval.ToString();
+                RefreshImages();
+            }
+            else MessageBox.Show("Images path doesn't exists", "LoadFailed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Timer_Box.Text = bg_switcher.Change_Interval.ToString();
             Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
             Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
-            foreach (var file in bg_switcher.GetImages())
-                DemoList.Items.Add(Path.GetFileName(file));
-            if (bg_switcher.Image_Index != 0)
-                DemoList.SelectedIndex = bg_switcher.Image_Index;
-            else
-                DemoList.SelectedIndex = 0;
-            Total_Text.Text = "Total Image : " + bg_switcher.GetImages().Count.ToString();
 
             //Setup events
             this.FormClosing += (s, e) => { bg_switcher.Save_State(); bg_switcher.Stop(); };

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -60,6 +61,17 @@ namespace Wallpaper_Switcher
                 return;
             }
             this.Hide();
+        }
+        private void RefreshImages()
+        {
+            DemoList.Items.Clear();
+            foreach (var file in bg_switcher.GetImages())
+                DemoList.Items.Add(Path.GetFileName(file));
+            if (bg_switcher.Image_Index != 0)
+                DemoList.SelectedIndex = bg_switcher.Image_Index;
+            else
+                DemoList.SelectedIndex = 0;
+            Total_Text.Text = "Total Image : " + bg_switcher.GetImages().Count.ToString();
         }
     }
 }

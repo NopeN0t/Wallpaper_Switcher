@@ -14,6 +14,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         [DataMember] public int Change_Interval { get; set; }
         [DataMember] public int Elasped { get; set; }
         [DataMember] public int Image_Index { get; set; }
+        [DataMember] public int AutoSave_Interval { get; set; }
     }
 
     public class BG_Switcher : IDisposable
@@ -22,6 +23,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         public int Change_Interval { get; set; } = 1800; //Seconds
         public int Elasped { get; set; } = 0; //Seconds
         public int Image_Index { get; set; } = 0;
+        public int AutoSave_Interval { get; set; } = 300; //Backup every 5 min
         public bool IsRunning { get; private set; } = false;
         public event EventHandler<string> OnBackgroundChanged;
         public event EventHandler<string> TimerTick;
@@ -51,7 +53,9 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
             {
                 Elasped++;
                 TimerTick?.Invoke(this, Elasped.ToString());
-                if (Elasped >= Change_Interval)
+                if (Elasped % AutoSave_Interval == 0) //Auto save
+                    Save_State();
+                if (Elasped >= Change_Interval) //Timer
                 {
                     Change_BG(++Image_Index);
                     Elasped = 0;
@@ -78,7 +82,8 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
                 BG_Source = this.BG_Source,
                 Change_Interval = this.Change_Interval,
                 Elasped = this.Elasped,
-                Image_Index = this.Image_Index
+                Image_Index = this.Image_Index,
+                AutoSave_Interval = this.AutoSave_Interval
             };
             using (var stream = new FileStream(CONFIGPATH, FileMode.Create))
             {
@@ -86,18 +91,22 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
                 serializer.WriteObject(stream, state);
             }
         }
-        public void Load_State()
+        public bool Load_State()
         {
-            if (!File.Exists(CONFIGPATH)) return;
+            if (!File.Exists(CONFIGPATH)) return false;
             using (var stream = new FileStream(CONFIGPATH, FileMode.Open))
             {
                 var serializer = new DataContractJsonSerializer(typeof(SwitcherState));
                 var state = (SwitcherState)serializer.ReadObject(stream);
                 if (BG_Source == null) BG_Source = state.BG_Source;
                 if (Change_Interval != 1800 || state.Change_Interval != 1800) Change_Interval = state.Change_Interval;
+                if (AutoSave_Interval != 300 || state.AutoSave_Interval != 300) AutoSave_Interval = state.AutoSave_Interval;
                 Elasped = state.Elasped;
                 Image_Index = state.Image_Index;
             }
+            if (!Directory.Exists(BG_Source))
+                return false;
+            return true;
         }
 
         public List<string> GetImages()
