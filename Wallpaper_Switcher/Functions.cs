@@ -11,6 +11,8 @@ namespace Wallpaper_Switcher
         //This class stores custom functions OOP style
         private void PlaySwitchAnimation()
         {
+
+            if (bg_switcher.Image_Index > bg_switcher.GetImages().Count - 1 || bg_switcher.Image_Index < 0) bg_switcher.Image_Index= 0;
             this.Invoke(new Action(() => { DemoList.SelectedIndex = bg_switcher.Image_Index; }));
             Task.Run(() =>
             {

@@ -32,6 +32,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         private readonly List<string> Image_List = new List<string>();
         private readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
         private System.Timers.Timer timer;
+        private readonly object timerLock = new object();
 
         public void Dispose()
         {
@@ -47,19 +48,26 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
             if (Image_List.Count == 0) throw new Exception("No supported images found");
 
 
-            //Main timer logic
-            timer = new System.Timers.Timer(1000);
+            timer = new System.Timers.Timer(1000)
+            {
+                AutoReset = false // Prevent reentrancy
+            };
+
             timer.Elapsed += (s, e) =>
             {
-                Elasped++;
-                TimerTick?.Invoke(this, Elasped.ToString());
-                if (Elasped % AutoSave_Interval == 0) //Auto save
-                    Save_State();
-                if (Elasped >= Change_Interval) //Timer
+                lock (timerLock)
                 {
-                    Change_BG(++Image_Index);
-                    Elasped = 0;
+                    Elasped++;
+                    TimerTick?.Invoke(this, Elasped.ToString());
+                    if (Elasped % AutoSave_Interval == 0)
+                        Save_State();
+                    if (Elasped >= Change_Interval)
+                    {
+                        Change_BG(++Image_Index);
+                        Elasped = 0;
+                    }
                 }
+                timer.Start(); // Manually restart
             };
             IsRunning = true;
             timer.Start();
@@ -67,6 +75,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         public void Stop()
         {
             timer?.Stop();
+            IsRunning = false;
         }
         public void Change_BG(int index)
         {
