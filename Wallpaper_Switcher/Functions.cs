@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,11 +14,11 @@ namespace Wallpaper_Switcher
         {
             try //This part explodes when program failed to load config
             {
-                if (bg_switcher.Image_Index > bg_switcher.GetImages().Count - 1 || bg_switcher.Image_Index < 0) bg_switcher.Image_Index = 0;
                 this.Invoke(new Action(() =>
                 {
-                    DemoList.SelectedIndex = bg_switcher.Image_Index;
-                    Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages().Count}";
+                    if (DemoList.Items.Count > 0)
+                       DemoList.SelectedIndex = bg_switcher.Image_Index;
+                    Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
                 }));
                 {
                     //Actual Animation
@@ -66,27 +67,71 @@ namespace Wallpaper_Switcher
             }
             catch { }
         }
-        private void StartTimer()
+
+        private bool StartTimer()
         {
-            try { bg_switcher.Start(); }
+            try
+            {
+                bg_switcher.Start(true);
+                StartStop_Button.Text = "Stop Timer";
+                return true;
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Failed To Start Timer\n" + ex.Message, "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
-            this.Hide();
         }
+        private bool StopTimer(bool Save = false, bool exit = false)
+        {
+            try
+            {
+                bg_switcher.Stop();
+                if (Save && !string.IsNullOrWhiteSpace(Source_Box.Text))
+                    bg_switcher.Save_State();
+                if (exit) return true;
+
+                this.Invoke(new Action(() =>
+                {
+                    StartStop_Button.Text = "Start Timer";
+                    Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
+                    NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
+                }));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed To Stop Timer\n" + ex.Message, "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        private void ResetTimer()
+        {
+            bg_switcher.Elasped = 0;
+            Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
+            NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
+        }
+        
         private void RefreshImages()
         {
             DemoList.Items.Clear();
-            foreach (var file in bg_switcher.GetImages())
+            foreach (var file in bg_switcher.GetImages(false, true))
                 DemoList.Items.Add(Path.GetFileName(file));
             if (bg_switcher.Image_Index != 0)
                 DemoList.SelectedIndex = bg_switcher.Image_Index;
             else
                 DemoList.SelectedIndex = 0;
-            Total_Text.Text = "Total Image : " + bg_switcher.GetImages().Count.ToString();
-            Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages().Count}";
+            Total_Text.Text = "Total Image : " + bg_switcher.GetImages(false).Count.ToString();
+            Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
+        }
+        private bool SetImage(int index)
+        {
+            if (bg_switcher.GetImages(false).Count == 0) return false;
+            if (index < 0) index = bg_switcher.GetImages().Count - 1;
+            else if (index > bg_switcher.GetImages().Count - 1) index = 0;
+            bg_switcher.Image_Index = index;
+            bg_switcher.Change_BG(index);
+            return true;
         }
     }
 }

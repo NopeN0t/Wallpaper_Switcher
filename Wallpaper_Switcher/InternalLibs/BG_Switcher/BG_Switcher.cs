@@ -39,10 +39,11 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
             Stop();
             Image_List.Clear();
         }
-        public void Start()
+        public void Start(bool SkipLoad = false)
         {
             if (IsRunning) return;
-            Load_State();
+            if (!SkipLoad)
+                Load_State();
 
             LocateImages();
             if (Image_List.Count == 0) throw new Exception("No supported images found");
@@ -63,11 +64,13 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
                         Save_State();
                     if (Elasped >= Change_Interval)
                     {
+                        if (Image_Index >= Image_List.Count - 1)
+                            Image_Index = -1;
                         Change_BG(++Image_Index);
                         Elasped = 0;
                     }
                 }
-                timer.Start(); // Manually restart
+                if (IsRunning) timer.Start(); // Manually restart
             };
             IsRunning = true;
             timer.Start();
@@ -79,7 +82,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         }
         public void Change_BG(int index)
         {
-            //This prevent overflow/underflow
+            //This prevent overflow/underflow works sometimes
             if (index > Image_List.Count - 1 || index < 0) index = 0;
             OnBackgroundChanged?.Invoke(this, Image_List[index]);
             Wallpaper.Set(Image_List[index]);
@@ -118,9 +121,10 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
             return true;
         }
 
-        public List<string> GetImages()
+        public List<string> GetImages(bool AutoLocate = true, bool ForceLocate = false)
         {
-            if (Image_List.Count == 0) LocateImages();
+            if (Image_List.Count == 0 && AutoLocate) LocateImages();
+            if (ForceLocate) { Image_List.Clear(); LocateImages(true); }
             return Image_List;
         }
         private void LocateImages(bool ForceLocate = false)

@@ -11,11 +11,12 @@ namespace Wallpaper_Switcher
         //It is recommend to move all of this back to MainForm.cs if you want to view code by double clicking
         private void OK_Button_Click(object sender, EventArgs e)
         {
-            StartTimer();
+            if (StartTimer())
+                this.Hide();
         }
         private void Reset_Button_Click(object sender, EventArgs e)
         {
-            bg_switcher.Elasped = 0;
+            ResetTimer();
         }
         private void Browse_Click(object sender, EventArgs e)
         {
@@ -24,21 +25,21 @@ namespace Wallpaper_Switcher
             {
                 Source_Box.Text = fbd.SelectedPath;
                 bg_switcher.BG_Source = fbd.SelectedPath;
+                bg_switcher.Image_Index = 0;
                 RefreshImages();
             }
         }
         private void Set_Image_Click(object sender, EventArgs e)
         {
-            bg_switcher.Image_Index = DemoList.SelectedIndex;
-            bg_switcher.Change_BG(DemoList.SelectedIndex);
+            SetImage(DemoList.SelectedIndex);
         }
         private void NextImage_Button_Click(object sender, EventArgs e)
         {
-            bg_switcher.Change_BG(++bg_switcher.Image_Index);
+            SetImage(bg_switcher.Image_Index + 1);
         }
         private void LastImage_Button_Click(object sender, EventArgs e)
         {
-            bg_switcher.Change_BG(--bg_switcher.Image_Index);
+            SetImage(bg_switcher.Image_Index - 1);
         }
         private void More_Button_Click(object sender, EventArgs e)
         {
@@ -120,16 +121,8 @@ namespace Wallpaper_Switcher
         }
         private void StartStop_Button_Click(object sender, EventArgs e)
         {
-            if (bg_switcher.IsRunning)
-            {
-                bg_switcher.Stop();
-                StartStop_Button.Text = "Start Timer";
-            }
-            else
-            {
-                StartTimer();
-                StartStop_Button.Text = "Stop Timer";
-            }
+            if (bg_switcher.IsRunning) StopTimer();
+            else StartTimer();
         }
 
         //IconMenu
@@ -143,15 +136,15 @@ namespace Wallpaper_Switcher
         }
         private void NextImage_Strip_Click(object sender, EventArgs e)
         {
-            bg_switcher.Change_BG(++bg_switcher.Image_Index);
+            SetImage(bg_switcher.Image_Index + 1);
         }
         private void LastImage_Strip_Click(object sender, EventArgs e)
         {
-            bg_switcher.Change_BG(--bg_switcher.Image_Index);
+            SetImage(bg_switcher.Image_Index - 1);
         }
         private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            bg_switcher.Change_BG(++bg_switcher.Image_Index);
+            SetImage(bg_switcher.Image_Index + 1);
             PlaySwitchAnimation();
         }
     }

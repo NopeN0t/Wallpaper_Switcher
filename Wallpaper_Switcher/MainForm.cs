@@ -27,24 +27,37 @@ namespace Wallpaper_Switcher
         }
         private void InitializeProgram()
         {
-            //Setup More Menu
+            bool LoadStateFailed = true;
+
+            //Universal setup
+            NotifyIcon.ContextMenuStrip = IconMenu;
+            NotifyIcon.Icon = frames[0];
+            NotifyIcon.Visible = true;
+            Preview.SizeMode = PictureBoxSizeMode.Zoom;
+            //Events
+            this.FormClosing += (s, e) => { StopTimer(true, true); };
+            this.Shown += (s, e) =>
+            {
+                //This make sure form is loaded before hiding
+                if (Startup.Checked && !LoadStateFailed) this.Hide();
+                PlaySwitchAnimation();
+            };
+            bg_switcher.OnBackgroundChanged += (s, e) => PlaySwitchAnimation();
+            bg_switcher.TimerTick += (s, e) => HandleTick();
+            
+            //More Menu
             MorePage = new Control[] { Timer_Text, Timer_Box, Reset_Button, Total_Text, Selected_Image ,Set_Image,
                                        Elapsed_CFG, Elapsed_box, Startup, NextImage_Button, LastImage_Button,
                                        AutoSave, AutoSave_Box, Set_Autosave_Button, Set_Button, StartStop_Button};
             this.Width = 440;
             foreach (var ctrl in MorePage) ctrl.Enabled = false;
 
-            //Setup NotifyIcon
-            NotifyIcon.ContextMenuStrip = IconMenu;
-            NotifyIcon.Icon = frames[0];
-            NotifyIcon.Visible = true;
-            Preview.SizeMode = PictureBoxSizeMode.Zoom;
-
             //Load previous state
             if (File.Exists("state.json"))
             {
                 if (bg_switcher.Load_State())
                 {
+                    LoadStateFailed = false;
                     Source_Box.Text = bg_switcher.BG_Source;
                     RefreshImages();
                 }
@@ -54,15 +67,8 @@ namespace Wallpaper_Switcher
             Timer_Box.Text = bg_switcher.Change_Interval.ToString();
             Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
             Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
+            NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
 
-            //Setup events
-            this.FormClosing += (s, e) => { bg_switcher.Save_State(); bg_switcher.Stop(); };
-            this.Shown += (s, e) => { 
-                if (Startup.Checked) this.Hide();
-                PlaySwitchAnimation();
-            }; //This make sure form is loaded before hiding
-            bg_switcher.OnBackgroundChanged += (s, e) => PlaySwitchAnimation();
-            bg_switcher.TimerTick += (s, e) => HandleTick();
 
             //Auto start
             try
@@ -79,8 +85,7 @@ namespace Wallpaper_Switcher
                         rk.DeleteValue(PROGRAMNAME, false);
                         rk.SetValue(PROGRAMNAME, Application.ExecutablePath);
                     }
-                    StartTimer();
-                    StartStop_Button.Text = "Stop Timer";
+                    if (!LoadStateFailed) StartTimer();
                 }
             }
             catch (Exception e)
