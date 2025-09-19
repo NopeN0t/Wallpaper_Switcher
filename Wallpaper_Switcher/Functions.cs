@@ -32,6 +32,7 @@ namespace Wallpaper_Switcher
                         NotifyIcon.Icon = frames[0];
                     });
                 }
+                bg_switcher.Elasped = 0; //(Should) Prevents sutting down at the same time as it changes
                 bg_switcher.Save_State();
             }
             catch { }
