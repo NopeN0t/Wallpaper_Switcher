@@ -68,8 +68,8 @@ namespace Wallpaper_Switcher
         {
             Preview.Image?.Dispose();
             try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
-            catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Load Failed", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            Selected_Image.Text = $"Slected Image : {DemoList.SelectedIndex}";
+            catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            Selected_Image.Text = $"Slected Image : {DemoList.SelectedIndex + 1}";
         }
         private void On_Visiblity_Change(object sender, EventArgs e)
         {
@@ -80,7 +80,7 @@ namespace Wallpaper_Switcher
                 try
                 {
                     try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
-                    catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Load Failed", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
                 catch { }//MessageBox.Show("Failed to locate files", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -105,7 +105,6 @@ namespace Wallpaper_Switcher
             }
             catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void Set_Autosave_Button_Click(object sender, EventArgs e)
         {
             try
@@ -118,6 +117,42 @@ namespace Wallpaper_Switcher
                 bg_switcher.Save_State();
             }
             catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+        private void StartStop_Button_Click(object sender, EventArgs e)
+        {
+            if (bg_switcher.IsRunning)
+            {
+                bg_switcher.Stop();
+                StartStop_Button.Text = "Start Timer";
+            }
+            else
+            {
+                StartTimer();
+                StartStop_Button.Text = "Stop Timer";
+            }
+        }
+
+        //IconMenu
+        private void Exit_Strip_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        private void ShowProgram_Click(object sender, EventArgs e)
+        {
+            this.Show();
+        }
+        private void NextImage_Strip_Click(object sender, EventArgs e)
+        {
+            bg_switcher.Change_BG(++bg_switcher.Image_Index);
+        }
+        private void LastImage_Strip_Click(object sender, EventArgs e)
+        {
+            bg_switcher.Change_BG(--bg_switcher.Image_Index);
+        }
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            bg_switcher.Change_BG(++bg_switcher.Image_Index);
+            PlaySwitchAnimation();
         }
     }
 }

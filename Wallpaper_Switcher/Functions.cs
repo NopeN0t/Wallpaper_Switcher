@@ -11,19 +11,30 @@ namespace Wallpaper_Switcher
         //This class stores custom functions OOP style
         private void PlaySwitchAnimation()
         {
-
-            if (bg_switcher.Image_Index > bg_switcher.GetImages().Count - 1 || bg_switcher.Image_Index < 0) bg_switcher.Image_Index= 0;
-            this.Invoke(new Action(() => { DemoList.SelectedIndex = bg_switcher.Image_Index; }));
-            Task.Run(() =>
+            try //This part explodes when program failed to load config
             {
-                foreach (var frame in frames)
+                if (bg_switcher.Image_Index > bg_switcher.GetImages().Count - 1 || bg_switcher.Image_Index < 0) bg_switcher.Image_Index = 0;
+                this.Invoke(new Action(() =>
                 {
-                    NotifyIcon.Icon = frame;
-                    this.Invoke(new Action(() => { this.Icon = frame; }));
-                    Thread.Sleep(100);
+                    DemoList.SelectedIndex = bg_switcher.Image_Index;
+                    Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages().Count}";
+                }));
+                {
+                    //Actual Animation
+                    Task.Run(() =>
+                    {
+                        foreach (var frame in frames)
+                        {
+                            NotifyIcon.Icon = frame;
+                            this.Invoke(new Action(() => { this.Icon = frame; }));
+                            Thread.Sleep(100);
+                        }
+                        NotifyIcon.Icon = frames[0];
+                    });
                 }
-                NotifyIcon.Icon = frames[0];
-            });
+                bg_switcher.Save_State();
+            }
+            catch { }
         }
         private string SecondsToString(int time)
         {
@@ -49,7 +60,7 @@ namespace Wallpaper_Switcher
                 {
                     this.Invoke(new Action(() =>
                     {
-
+                        NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
                     }));
                 }
             }
@@ -60,7 +71,7 @@ namespace Wallpaper_Switcher
             try { bg_switcher.Start(); }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed To Start Timer\n" + ex.Message, "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             this.Hide();

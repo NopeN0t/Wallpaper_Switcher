@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Wallpaper_Switcher.InternalLibs.BG_Switcher;
 
@@ -29,7 +30,7 @@ namespace Wallpaper_Switcher
             //Setup More Menu
             MorePage = new Control[] { Timer_Text, Timer_Box, Reset_Button, Total_Text, Selected_Image ,Set_Image,
                                        Elapsed_CFG, Elapsed_box, Startup, NextImage_Button, LastImage_Button,
-                                       AutoSave, AutoSave_Box, Set_Autosave_Button, Set_Button};
+                                       AutoSave, AutoSave_Box, Set_Autosave_Button, Set_Button, StartStop_Button};
             this.Width = 440;
             foreach (var ctrl in MorePage) ctrl.Enabled = false;
 
@@ -40,12 +41,15 @@ namespace Wallpaper_Switcher
             Preview.SizeMode = PictureBoxSizeMode.Zoom;
 
             //Load previous state
-            if (bg_switcher.Load_State())
+            if (File.Exists("state.json"))
             {
-                Source_Box.Text = bg_switcher.BG_Source;
-                RefreshImages();
+                if (bg_switcher.Load_State())
+                {
+                    Source_Box.Text = bg_switcher.BG_Source;
+                    RefreshImages();
+                }
+                else MessageBox.Show("LoadFailed\nImages path doesn't exists", "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else MessageBox.Show("Images path doesn't exists", "LoadFailed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             AutoSave_Box.Text = bg_switcher.AutoSave_Interval.ToString();
             Timer_Box.Text = bg_switcher.Change_Interval.ToString();
             Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
@@ -53,7 +57,10 @@ namespace Wallpaper_Switcher
 
             //Setup events
             this.FormClosing += (s, e) => { bg_switcher.Save_State(); bg_switcher.Stop(); };
-            this.Shown += (s, e) => { if (Startup.Checked) this.Hide(); }; //This make sure form is loaded before hiding
+            this.Shown += (s, e) => { 
+                if (Startup.Checked) this.Hide();
+                PlaySwitchAnimation();
+            }; //This make sure form is loaded before hiding
             bg_switcher.OnBackgroundChanged += (s, e) => PlaySwitchAnimation();
             bg_switcher.TimerTick += (s, e) => HandleTick();
 
@@ -76,14 +83,7 @@ namespace Wallpaper_Switcher
                 }
             }
             catch (Exception e)
-            { MessageBox.Show("Error loading startup settings\n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-        }
-
-        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            //Temp implementaion
-            this.Show();
-            PlaySwitchAnimation();
+            { MessageBox.Show("Error loading startup settings\n" + e.Message, "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
     }
 }

@@ -32,6 +32,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.IconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CImg_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.NextImage_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.LastImage_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.NextTimer_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.Index_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowProgram_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.Exit_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.OK_Button = new System.Windows.Forms.Button();
             this.Reset_Button = new System.Windows.Forms.Button();
             this.Elapsed = new System.Windows.Forms.Label();
@@ -56,6 +63,8 @@
             this.AutoSave = new System.Windows.Forms.Label();
             this.AutoSave_Box = new System.Windows.Forms.TextBox();
             this.Set_Autosave_Button = new System.Windows.Forms.Button();
+            this.StartStop_Button = new System.Windows.Forms.Button();
+            this.IconMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Preview)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,8 +77,71 @@
             // IconMenu
             // 
             this.IconMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.IconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CImg_Strip,
+            this.NextTimer_Strip,
+            this.Index_Strip,
+            this.ShowProgram_Strip,
+            this.Exit_Strip});
             this.IconMenu.Name = "IconMenu";
-            this.IconMenu.Size = new System.Drawing.Size(61, 4);
+            this.IconMenu.ShowImageMargin = false;
+            this.IconMenu.Size = new System.Drawing.Size(181, 124);
+            // 
+            // CImg_Strip
+            // 
+            this.CImg_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.CImg_Strip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NextImage_Strip,
+            this.LastImage_Strip});
+            this.CImg_Strip.Name = "CImg_Strip";
+            this.CImg_Strip.Size = new System.Drawing.Size(180, 24);
+            this.CImg_Strip.Text = "Change Image";
+            // 
+            // NextImage_Strip
+            // 
+            this.NextImage_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.NextImage_Strip.Name = "NextImage_Strip";
+            this.NextImage_Strip.Size = new System.Drawing.Size(169, 26);
+            this.NextImage_Strip.Text = "Next Image";
+            this.NextImage_Strip.Click += new System.EventHandler(this.NextImage_Strip_Click);
+            // 
+            // LastImage_Strip
+            // 
+            this.LastImage_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.LastImage_Strip.Name = "LastImage_Strip";
+            this.LastImage_Strip.Size = new System.Drawing.Size(169, 26);
+            this.LastImage_Strip.Text = "Last Image";
+            this.LastImage_Strip.Click += new System.EventHandler(this.LastImage_Strip_Click);
+            // 
+            // NextTimer_Strip
+            // 
+            this.NextTimer_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.NextTimer_Strip.Name = "NextTimer_Strip";
+            this.NextTimer_Strip.Size = new System.Drawing.Size(180, 24);
+            this.NextTimer_Strip.Text = "Next in 00 00 00 00";
+            // 
+            // Index_Strip
+            // 
+            this.Index_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.Index_Strip.Name = "Index_Strip";
+            this.Index_Strip.Size = new System.Drawing.Size(180, 24);
+            this.Index_Strip.Text = "Image 000/000";
+            // 
+            // ShowProgram_Strip
+            // 
+            this.ShowProgram_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ShowProgram_Strip.Name = "ShowProgram_Strip";
+            this.ShowProgram_Strip.Size = new System.Drawing.Size(180, 24);
+            this.ShowProgram_Strip.Text = "Show";
+            this.ShowProgram_Strip.Click += new System.EventHandler(this.ShowProgram_Click);
+            // 
+            // Exit_Strip
+            // 
+            this.Exit_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.Exit_Strip.Name = "Exit_Strip";
+            this.Exit_Strip.Size = new System.Drawing.Size(180, 24);
+            this.Exit_Strip.Text = "Exit";
+            this.Exit_Strip.Click += new System.EventHandler(this.Exit_Strip_Click);
             // 
             // OK_Button
             // 
@@ -88,7 +160,7 @@
             this.Reset_Button.Margin = new System.Windows.Forms.Padding(4);
             this.Reset_Button.Name = "Reset_Button";
             this.Reset_Button.Size = new System.Drawing.Size(131, 35);
-            this.Reset_Button.TabIndex = 14;
+            this.Reset_Button.TabIndex = 15;
             this.Reset_Button.Text = "Reset Timer";
             this.Reset_Button.UseVisualStyleBackColor = true;
             this.Reset_Button.Click += new System.EventHandler(this.Reset_Button_Click);
@@ -281,10 +353,9 @@
             this.Set_Button.Margin = new System.Windows.Forms.Padding(4);
             this.Set_Button.Name = "Set_Button";
             this.Set_Button.Size = new System.Drawing.Size(131, 35);
-            this.Set_Button.TabIndex = 13;
+            this.Set_Button.TabIndex = 14;
             this.Set_Button.Text = "Set Timer";
             this.Set_Button.UseVisualStyleBackColor = true;
-            this.Set_Button.Click += new System.EventHandler(this.Set_Button_Click);
             // 
             // AutoSave
             // 
@@ -313,11 +384,23 @@
             this.Set_Autosave_Button.UseVisualStyleBackColor = true;
             this.Set_Autosave_Button.Click += new System.EventHandler(this.Set_Autosave_Button_Click);
             // 
+            // StartStop_Button
+            // 
+            this.StartStop_Button.Location = new System.Drawing.Point(795, 325);
+            this.StartStop_Button.Margin = new System.Windows.Forms.Padding(4);
+            this.StartStop_Button.Name = "StartStop_Button";
+            this.StartStop_Button.Size = new System.Drawing.Size(131, 35);
+            this.StartStop_Button.TabIndex = 13;
+            this.StartStop_Button.Text = "Start Timer";
+            this.StartStop_Button.UseVisualStyleBackColor = true;
+            this.StartStop_Button.Click += new System.EventHandler(this.StartStop_Button_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(942, 414);
+            this.Controls.Add(this.StartStop_Button);
             this.Controls.Add(this.Set_Autosave_Button);
             this.Controls.Add(this.AutoSave_Box);
             this.Controls.Add(this.AutoSave);
@@ -351,6 +434,7 @@
             this.Name = "MainForm";
             this.Text = "Wallpaper Switcher";
             this.VisibleChanged += new System.EventHandler(this.On_Visiblity_Change);
+            this.IconMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Preview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -385,6 +469,14 @@
         private System.Windows.Forms.Label AutoSave;
         private System.Windows.Forms.TextBox AutoSave_Box;
         private System.Windows.Forms.Button Set_Autosave_Button;
+        private System.Windows.Forms.ToolStripMenuItem NextTimer_Strip;
+        private System.Windows.Forms.ToolStripMenuItem Index_Strip;
+        private System.Windows.Forms.ToolStripMenuItem Exit_Strip;
+        private System.Windows.Forms.ToolStripMenuItem CImg_Strip;
+        private System.Windows.Forms.ToolStripMenuItem NextImage_Strip;
+        private System.Windows.Forms.ToolStripMenuItem LastImage_Strip;
+        private System.Windows.Forms.ToolStripMenuItem ShowProgram_Strip;
+        private System.Windows.Forms.Button StartStop_Button;
     }
 }
 
