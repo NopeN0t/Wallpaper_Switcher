@@ -19,6 +19,8 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
 
     public class BG_Switcher : IDisposable
     {
+
+        public readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
         public string BG_Source { get; set; }
         public int Change_Interval { get; set; } = 1800; //Seconds
         public int Elasped { get; set; } = 0; //Seconds
@@ -30,7 +32,6 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
 
 
         private readonly List<string> Image_List = new List<string>();
-        private readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
         private System.Timers.Timer timer;
         private readonly object timerLock = new object();
 

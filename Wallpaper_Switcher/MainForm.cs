@@ -53,7 +53,7 @@ namespace Wallpaper_Switcher
             foreach (var ctrl in MorePage) ctrl.Enabled = false;
 
             //Load previous state
-            if (File.Exists("state.json"))
+            if (File.Exists(bg_switcher.CONFIGPATH))
             {
                 if (bg_switcher.Load_State())
                 {
