@@ -356,6 +356,7 @@
             this.Set_Button.TabIndex = 14;
             this.Set_Button.Text = "Set Timer";
             this.Set_Button.UseVisualStyleBackColor = true;
+            this.Set_Button.Click += new System.EventHandler(this.Set_Button_Click);
             // 
             // AutoSave
             // 

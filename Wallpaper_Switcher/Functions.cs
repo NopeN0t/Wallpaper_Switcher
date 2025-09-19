@@ -86,6 +86,7 @@ namespace Wallpaper_Switcher
             else
                 DemoList.SelectedIndex = 0;
             Total_Text.Text = "Total Image : " + bg_switcher.GetImages().Count.ToString();
+            Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages().Count}";
         }
     }
 }

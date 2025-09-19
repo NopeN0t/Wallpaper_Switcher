@@ -80,6 +80,7 @@ namespace Wallpaper_Switcher
                         rk.SetValue(PROGRAMNAME, Application.ExecutablePath);
                     }
                     StartTimer();
+                    StartStop_Button.Text = "Stop Timer";
                 }
             }
             catch (Exception e)
