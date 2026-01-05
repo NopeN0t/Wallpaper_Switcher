@@ -48,7 +48,7 @@ namespace Wallpaper_Switcher
             //More Menu
             MorePage = new Control[] { Timer_Text, Timer_Box, Reset_Button, Total_Text, Selected_Image ,Set_Image,
                                        Elapsed_CFG, Elapsed_box, Startup, NextImage_Button, LastImage_Button,
-                                       AutoSave, AutoSave_Box, Set_Autosave_Button, Set_Button, StartStop_Button};
+                                       AutoSave, AutoSave_Box, Set_Autosave_Button, Set_Button};
             this.Width = 440;
             foreach (var ctrl in MorePage) ctrl.Enabled = false;
 

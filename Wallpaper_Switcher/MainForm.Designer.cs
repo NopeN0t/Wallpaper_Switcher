@@ -35,8 +35,9 @@
             this.CImg_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.NextImage_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.LastImage_Strip = new System.Windows.Forms.ToolStripMenuItem();
-            this.NextTimer_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.Index_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.NextTimer_Strip = new System.Windows.Forms.ToolStripMenuItem();
+            this.StartStop_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowProgram_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.Exit_Strip = new System.Windows.Forms.ToolStripMenuItem();
             this.OK_Button = new System.Windows.Forms.Button();
@@ -79,13 +80,14 @@
             this.IconMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.IconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CImg_Strip,
-            this.NextTimer_Strip,
             this.Index_Strip,
+            this.NextTimer_Strip,
+            this.StartStop_Strip,
             this.ShowProgram_Strip,
             this.Exit_Strip});
             this.IconMenu.Name = "IconMenu";
             this.IconMenu.ShowImageMargin = false;
-            this.IconMenu.Size = new System.Drawing.Size(181, 124);
+            this.IconMenu.Size = new System.Drawing.Size(181, 148);
             // 
             // CImg_Strip
             // 
@@ -113,6 +115,13 @@
             this.LastImage_Strip.Text = "Last Image";
             this.LastImage_Strip.Click += new System.EventHandler(this.LastImage_Strip_Click);
             // 
+            // Index_Strip
+            // 
+            this.Index_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.Index_Strip.Name = "Index_Strip";
+            this.Index_Strip.Size = new System.Drawing.Size(180, 24);
+            this.Index_Strip.Text = "Image 000/000";
+            // 
             // NextTimer_Strip
             // 
             this.NextTimer_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -120,12 +129,12 @@
             this.NextTimer_Strip.Size = new System.Drawing.Size(180, 24);
             this.NextTimer_Strip.Text = "Next in 00 00 00 00";
             // 
-            // Index_Strip
+            // StartStop_Strip
             // 
-            this.Index_Strip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.Index_Strip.Name = "Index_Strip";
-            this.Index_Strip.Size = new System.Drawing.Size(180, 24);
-            this.Index_Strip.Text = "Image 000/000";
+            this.StartStop_Strip.Name = "StartStop_Strip";
+            this.StartStop_Strip.Size = new System.Drawing.Size(180, 24);
+            this.StartStop_Strip.Text = "Start Timer";
+            this.StartStop_Strip.Click += new System.EventHandler(this.StartStop_Strip_Click);
             // 
             // ShowProgram_Strip
             // 
@@ -149,8 +158,8 @@
             this.OK_Button.Margin = new System.Windows.Forms.Padding(4);
             this.OK_Button.Name = "OK_Button";
             this.OK_Button.Size = new System.Drawing.Size(130, 35);
-            this.OK_Button.TabIndex = 4;
-            this.OK_Button.Text = "OK";
+            this.OK_Button.TabIndex = 5;
+            this.OK_Button.Text = "Hide";
             this.OK_Button.UseVisualStyleBackColor = true;
             this.OK_Button.Click += new System.EventHandler(this.OK_Button_Click);
             // 
@@ -171,9 +180,9 @@
             this.Elapsed.Location = new System.Drawing.Point(15, 368);
             this.Elapsed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Elapsed.Name = "Elapsed";
-            this.Elapsed.Size = new System.Drawing.Size(116, 25);
+            this.Elapsed.Size = new System.Drawing.Size(200, 25);
             this.Elapsed.TabIndex = 3;
-            this.Elapsed.Text = "Elapsed = 0";
+            this.Elapsed.Text = "Elapsed = 0:00:00:00";
             // 
             // Timer
             // 
@@ -181,9 +190,9 @@
             this.Timer.Location = new System.Drawing.Point(15, 331);
             this.Timer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Timer.Name = "Timer";
-            this.Timer.Size = new System.Drawing.Size(104, 25);
+            this.Timer.Size = new System.Drawing.Size(204, 25);
             this.Timer.TabIndex = 4;
-            this.Timer.Text = "Timer      =";
+            this.Timer.Text = "Timer      = 0:00:00:00";
             // 
             // Timer_Box
             // 
@@ -191,7 +200,7 @@
             this.Timer_Box.Margin = new System.Windows.Forms.Padding(4);
             this.Timer_Box.Name = "Timer_Box";
             this.Timer_Box.Size = new System.Drawing.Size(269, 30);
-            this.Timer_Box.TabIndex = 5;
+            this.Timer_Box.TabIndex = 6;
             // 
             // Source_Box
             // 
@@ -270,9 +279,10 @@
             this.Total_Text.Location = new System.Drawing.Point(531, 105);
             this.Total_Text.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Total_Text.Name = "Total_Text";
-            this.Total_Text.Size = new System.Drawing.Size(131, 25);
+            this.Total_Text.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Total_Text.Size = new System.Drawing.Size(82, 25);
             this.Total_Text.TabIndex = 14;
-            this.Total_Text.Text = "Total Image : ";
+            this.Total_Text.Text = "Image : ";
             // 
             // Selected_Image
             // 
@@ -290,7 +300,7 @@
             this.Set_Image.Margin = new System.Windows.Forms.Padding(4);
             this.Set_Image.Name = "Set_Image";
             this.Set_Image.Size = new System.Drawing.Size(131, 35);
-            this.Set_Image.TabIndex = 7;
+            this.Set_Image.TabIndex = 8;
             this.Set_Image.Text = "Set Image";
             this.Set_Image.UseVisualStyleBackColor = true;
             this.Set_Image.Click += new System.EventHandler(this.Set_Image_Click);
@@ -311,7 +321,7 @@
             this.Elapsed_box.Margin = new System.Windows.Forms.Padding(4);
             this.Elapsed_box.Name = "Elapsed_box";
             this.Elapsed_box.Size = new System.Drawing.Size(245, 30);
-            this.Elapsed_box.TabIndex = 6;
+            this.Elapsed_box.TabIndex = 7;
             // 
             // Startup
             // 
@@ -320,7 +330,7 @@
             this.Startup.Margin = new System.Windows.Forms.Padding(4);
             this.Startup.Name = "Startup";
             this.Startup.Size = new System.Drawing.Size(160, 29);
-            this.Startup.TabIndex = 10;
+            this.Startup.TabIndex = 11;
             this.Startup.Text = "Run on startup";
             this.Startup.UseVisualStyleBackColor = true;
             this.Startup.CheckedChanged += new System.EventHandler(this.Startup_CheckedChanged);
@@ -331,7 +341,7 @@
             this.NextImage_Button.Margin = new System.Windows.Forms.Padding(4);
             this.NextImage_Button.Name = "NextImage_Button";
             this.NextImage_Button.Size = new System.Drawing.Size(131, 35);
-            this.NextImage_Button.TabIndex = 8;
+            this.NextImage_Button.TabIndex = 9;
             this.NextImage_Button.Text = "Next Image";
             this.NextImage_Button.UseVisualStyleBackColor = true;
             this.NextImage_Button.Click += new System.EventHandler(this.NextImage_Button_Click);
@@ -342,7 +352,7 @@
             this.LastImage_Button.Margin = new System.Windows.Forms.Padding(4);
             this.LastImage_Button.Name = "LastImage_Button";
             this.LastImage_Button.Size = new System.Drawing.Size(131, 35);
-            this.LastImage_Button.TabIndex = 9;
+            this.LastImage_Button.TabIndex = 10;
             this.LastImage_Button.Text = "Last Image";
             this.LastImage_Button.UseVisualStyleBackColor = true;
             this.LastImage_Button.Click += new System.EventHandler(this.LastImage_Button_Click);
@@ -372,7 +382,7 @@
             this.AutoSave_Box.Location = new System.Drawing.Point(693, 230);
             this.AutoSave_Box.Name = "AutoSave_Box";
             this.AutoSave_Box.Size = new System.Drawing.Size(148, 30);
-            this.AutoSave_Box.TabIndex = 11;
+            this.AutoSave_Box.TabIndex = 12;
             // 
             // Set_Autosave_Button
             // 
@@ -380,18 +390,18 @@
             this.Set_Autosave_Button.Margin = new System.Windows.Forms.Padding(4);
             this.Set_Autosave_Button.Name = "Set_Autosave_Button";
             this.Set_Autosave_Button.Size = new System.Drawing.Size(79, 35);
-            this.Set_Autosave_Button.TabIndex = 12;
+            this.Set_Autosave_Button.TabIndex = 13;
             this.Set_Autosave_Button.Text = "Set";
             this.Set_Autosave_Button.UseVisualStyleBackColor = true;
             this.Set_Autosave_Button.Click += new System.EventHandler(this.Set_Autosave_Button_Click);
             // 
             // StartStop_Button
             // 
-            this.StartStop_Button.Location = new System.Drawing.Point(795, 325);
+            this.StartStop_Button.Location = new System.Drawing.Point(241, 368);
             this.StartStop_Button.Margin = new System.Windows.Forms.Padding(4);
             this.StartStop_Button.Name = "StartStop_Button";
             this.StartStop_Button.Size = new System.Drawing.Size(131, 35);
-            this.StartStop_Button.TabIndex = 13;
+            this.StartStop_Button.TabIndex = 4;
             this.StartStop_Button.Text = "Start Timer";
             this.StartStop_Button.UseVisualStyleBackColor = true;
             this.StartStop_Button.Click += new System.EventHandler(this.StartStop_Button_Click);
@@ -478,6 +488,7 @@
         private System.Windows.Forms.ToolStripMenuItem LastImage_Strip;
         private System.Windows.Forms.ToolStripMenuItem ShowProgram_Strip;
         private System.Windows.Forms.Button StartStop_Button;
+        private System.Windows.Forms.ToolStripMenuItem StartStop_Strip;
     }
 }
 

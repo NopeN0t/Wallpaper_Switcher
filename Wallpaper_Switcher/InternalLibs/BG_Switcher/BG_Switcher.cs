@@ -143,7 +143,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
     }
     class Wallpaper
     {
-        const int SPI_SETDESKWALLPAPER = 20;
+        const int SPI_SETDESKWALLPAPER = 20; //0x14
         const int SPIF_UPDATEINIFILE = 0x01;
         const int SPIF_SENDCHANGE = 0x02;
 

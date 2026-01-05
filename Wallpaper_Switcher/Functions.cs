@@ -74,6 +74,7 @@ namespace Wallpaper_Switcher
             {
                 bg_switcher.Start(true);
                 StartStop_Button.Text = "Stop Timer";
+                StartStop_Strip.Text = "Stop Timer";
                 return true;
             }
             catch (Exception ex)
@@ -94,6 +95,8 @@ namespace Wallpaper_Switcher
                 this.Invoke(new Action(() =>
                 {
                     StartStop_Button.Text = "Start Timer";
+                    StartStop_Strip.Text = "Start Timer";
+
                     Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
                     NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
                 }));
@@ -121,7 +124,7 @@ namespace Wallpaper_Switcher
                 DemoList.SelectedIndex = bg_switcher.Image_Index;
             else
                 DemoList.SelectedIndex = 0;
-            Total_Text.Text = "Total Image : " + bg_switcher.GetImages(false).Count.ToString();
+            Total_Text.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
             Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
         }
         private bool SetImage(int index)

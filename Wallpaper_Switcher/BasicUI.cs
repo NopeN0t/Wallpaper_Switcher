@@ -11,8 +11,7 @@ namespace Wallpaper_Switcher
         //It is recommend to move all of this back to MainForm.cs if you want to view code by double clicking
         private void OK_Button_Click(object sender, EventArgs e)
         {
-            if (StartTimer())
-                this.Hide();
+            this.Hide();
         }
         private void Reset_Button_Click(object sender, EventArgs e)
         {
@@ -141,6 +140,11 @@ namespace Wallpaper_Switcher
         private void LastImage_Strip_Click(object sender, EventArgs e)
         {
             SetImage(bg_switcher.Image_Index - 1);
+        }
+        private void StartStop_Strip_Click(object sender, EventArgs e)
+        {
+            if (bg_switcher.IsRunning) StopTimer();
+            else StartTimer();
         }
         private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
