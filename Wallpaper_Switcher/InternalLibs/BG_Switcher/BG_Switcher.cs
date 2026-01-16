@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Json;
 
 namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
@@ -19,7 +19,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
 
     public class BG_Switcher : IDisposable
     {
-
+        
         public readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
         public string BG_Source { get; set; }
         public int Change_Interval { get; set; } = 1800; //Seconds
@@ -34,6 +34,14 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         private readonly List<string> Image_List = new List<string>();
         private System.Timers.Timer timer;
         private readonly object timerLock = new object();
+        public IWallpaper Wallpaper { get; set; }
+
+        public BG_Switcher()
+        {
+            //OS detection
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            { Wallpaper = new Wallpaper_nt(); }
+        }
 
         public void Dispose()
         {
@@ -44,17 +52,10 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         {
             if (IsRunning) return;
             if (!SkipLoad)
-                Load_State();
+                Load_State(); //Load last instance state
+            if (LocateImages() == 0) throw new Exception("No supported images found");
 
-            LocateImages();
-            if (Image_List.Count == 0) throw new Exception("No supported images found");
-
-
-            timer = new System.Timers.Timer(1000)
-            {
-                AutoReset = false // Prevent reentrancy
-            };
-
+            timer = new System.Timers.Timer(1000) { AutoReset = false }; // Create Timer
             timer.Elapsed += (s, e) =>
             {
                 lock (timerLock)
@@ -62,18 +63,18 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
                     Elasped++;
                     TimerTick?.Invoke(this, Elasped.ToString());
                     if (Elasped % AutoSave_Interval == 0)
-                        Save_State();
+                        Save_State(); //Auto save
                     if (Elasped >= Change_Interval)
                     {
-                        if (Image_Index >= Image_List.Count - 1)
-                            Image_Index = -1;
-                        Change_BG(++Image_Index);
-                        Elasped = 0;
+                        if (Image_Index >= Image_List.Count - 1) //Loop around ??
+                            Image_Index = -1; //Counteract ++ from next line
+                        Change_BG(++Image_Index); //Change Image
+                        Elasped = 0; // Reset state
                     }
                 }
-                if (IsRunning) timer.Start(); // Manually restart
+                if (IsRunning) timer.Start(); // Start timer
             };
-            IsRunning = true;
+            IsRunning = true; //Initial startup
             timer.Start();
         }
         public void Stop()
@@ -86,7 +87,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
             //This prevent overflow/underflow works sometimes
             if (index > Image_List.Count - 1 || index < 0) index = 0;
             OnBackgroundChanged?.Invoke(this, Image_List[index]);
-            Wallpaper.Set(Image_List[index]);
+            Wallpaper.SetWallpaper(Image_List[index]);
         }
         public void Save_State()
         {
@@ -124,38 +125,23 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
 
         public List<string> GetImages(bool AutoLocate = true, bool ForceLocate = false)
         {
+            //This returns Image paths
             if (Image_List.Count == 0 && AutoLocate) LocateImages();
             if (ForceLocate) { Image_List.Clear(); LocateImages(true); }
             return Image_List;
         }
-        private void LocateImages(bool ForceLocate = false)
+        private int LocateImages(bool ForceLocate = false)
         {
-            if (Image_List.Count != 0 && !ForceLocate) return;
+            if (Image_List.Count != 0 && !ForceLocate) return Image_List.Count; // Prevent searching if it already is
             //Locate Images Hard to read Edition
-            var allowedExts = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+            var Extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
 
             foreach (string file in Directory.GetFiles(BG_Source, "*.*", SearchOption.AllDirectories))
             {
-                if (allowedExts.Contains(Path.GetExtension(file)))
+                if (Extensions.Contains(Path.GetExtension(file)))
                     Image_List.Add(file);
             }
-        }
-    }
-    class Wallpaper
-    {
-        const int SPI_SETDESKWALLPAPER = 20; //0x14
-        const int SPIF_UPDATEINIFILE = 0x01;
-        const int SPIF_SENDCHANGE = 0x02;
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SystemParametersInfo(
-            int uAction, int uParam, string lpvParam, int fuWinIni);
-
-        public static void Set(string filePath)
-        {
-            // filePath should be BMP, JPG, PNG (Windows will convert internally if needed)
-            SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filePath,
-                SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+            return Image_List.Count; // Total Image
         }
     }
 }
