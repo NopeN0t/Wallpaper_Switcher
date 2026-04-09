@@ -134,7 +134,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         {
             if (Image_List.Count != 0 && !ForceLocate) return Image_List.Count; // Prevent searching if it already is
             //Locate Images Hard to read Edition
-            var Extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+            var Extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".jxl", ".png", ".bmp", ".gif", ".avif", ".heic" };
 
             foreach (string file in Directory.GetFiles(BG_Source, "*.*", SearchOption.AllDirectories))
             {

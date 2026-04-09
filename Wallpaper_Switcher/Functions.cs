@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +17,7 @@ namespace Wallpaper_Switcher
                 {
                     if (DemoList.Items.Count > 0)
                        DemoList.SelectedIndex = bg_switcher.Image_Index;
+                    Total_Text.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
                     Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
                 }));
                 {
