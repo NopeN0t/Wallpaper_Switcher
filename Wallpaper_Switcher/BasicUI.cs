@@ -1,6 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using ImageMagick;
+using Microsoft.Win32;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Wallpaper_Switcher
@@ -66,9 +68,24 @@ namespace Wallpaper_Switcher
         }
         private void DemoList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Preview.Image?.Dispose();
-            try { Preview.Image = Image.FromFile(bg_switcher.GetImages()[DemoList.SelectedIndex]); }
-            catch { MessageBox.Show($"ImageBox doesn't like\nThis file : {bg_switcher.GetImages()[DemoList.SelectedIndex]}", "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            string path = bg_switcher.GetImages()[DemoList.SelectedIndex];
+            try
+            {
+                using (var ms = new MemoryStream())
+                {
+                    using (var img = new MagickImage(path))
+                    {
+                        img.Strip();
+                        img.Format = MagickFormat.Png;
+                        img.Resize(600, 0);
+                        img.Write(ms);
+                    }
+                    Preview.Image?.Dispose();
+                    ms.Position = 0;
+                    { Preview.Image = new Bitmap(ms); }
+                }
+            }
+            catch (Exception ex){ MessageBox.Show($"Something went wrong when loading preview\n{ex}", "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             Selected_Image.Text = $"Slected Image : {DemoList.SelectedIndex + 1}";
         }
         private void On_Visiblity_Change(object sender, EventArgs e)
