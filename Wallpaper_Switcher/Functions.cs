@@ -16,7 +16,7 @@ namespace Wallpaper_Switcher
                 this.Invoke(new Action(() =>
                 {
                     if (DemoList.Items.Count > 0)
-                       DemoList.SelectedIndex = bg_switcher.Image_Index;
+                        DemoList.SelectedIndex = bg_switcher.Image_Index;
                     Total_Text.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
                     Index_Strip.Text = $"Image {bg_switcher.Image_Index + 1}/{bg_switcher.GetImages(false).Count}";
                 }));
@@ -114,7 +114,7 @@ namespace Wallpaper_Switcher
             Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
             NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
         }
-        
+
         private void RefreshImages()
         {
             DemoList.Items.Clear();

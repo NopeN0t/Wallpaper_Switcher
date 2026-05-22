@@ -1,20 +1,36 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallpaper_Switcher", "Wallpaper_Switcher\Wallpaper_Switcher.csproj", "{B0DE548F-0916-4D89-8068-DE469314C551}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BG_Lib", "BG_Lib\BG_Lib.csproj", "{E4E4FD22-9CB8-4253-899A-1A0453585E66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B0DE548F-0916-4D89-8068-DE469314C551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B0DE548F-0916-4D89-8068-DE469314C551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0DE548F-0916-4D89-8068-DE469314C551}.Debug|x64.ActiveCfg = Debug|x64
+		{B0DE548F-0916-4D89-8068-DE469314C551}.Debug|x64.Build.0 = Debug|x64
 		{B0DE548F-0916-4D89-8068-DE469314C551}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0DE548F-0916-4D89-8068-DE469314C551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0DE548F-0916-4D89-8068-DE469314C551}.Release|x64.ActiveCfg = Release|x64
+		{B0DE548F-0916-4D89-8068-DE469314C551}.Release|x64.Build.0 = Release|x64
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Debug|x64.ActiveCfg = Debug|x64
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Debug|x64.Build.0 = Debug|x64
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|x64.ActiveCfg = Release|x64
+		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

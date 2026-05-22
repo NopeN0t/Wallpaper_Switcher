@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Wallpaper_Switcher.InternalLibs.BG_Switcher;
 
 namespace Wallpaper_Switcher
 {
@@ -15,7 +14,7 @@ namespace Wallpaper_Switcher
                                   Properties.Resources.refresh_1, Properties.Resources.refresh_2, Properties.Resources.refresh_3,
                                   Properties.Resources.refresh_4, Properties.Resources.refresh_5, Properties.Resources.refresh_6,
                                   Properties.Resources.refresh_7, Properties.Resources.refresh_8};
-        private readonly BG_Switcher bg_switcher = new BG_Switcher();
+        private readonly BG_Lib.BG_Switcher bg_switcher = new BG_Lib.BG_Switcher();
 
         private static readonly string PROGRAMNAME = "Wallpaper Switcher";
         private static readonly FileVersionInfo PROGRAM_VERSION = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
@@ -44,7 +43,7 @@ namespace Wallpaper_Switcher
             };
             bg_switcher.OnBackgroundChanged += (s, e) => PlaySwitchAnimation();
             bg_switcher.TimerTick += (s, e) => HandleTick();
-            
+
             //More Menu
             MorePage = new Control[] { Timer_Text, Timer_Box, Reset_Button, Total_Text, Selected_Image ,Set_Image,
                                        Elapsed_CFG, Elapsed_box, Startup, NextImage_Button, LastImage_Button,

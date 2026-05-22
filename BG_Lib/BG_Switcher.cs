@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BG_Lib.Managers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Json;
 
-namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
+namespace BG_Lib
 {
     [DataContract]
     class SwitcherState
@@ -19,7 +19,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
 
     public class BG_Switcher : IDisposable
     {
-        
+
         public readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
         public string BG_Source { get; set; }
         public int Change_Interval { get; set; } = 1800; //Seconds
@@ -34,14 +34,7 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         private readonly List<string> Image_List = new List<string>();
         private System.Timers.Timer timer;
         private readonly object timerLock = new object();
-        public IWallpaper Wallpaper { get; set; }
-
-        public BG_Switcher()
-        {
-            //OS detection
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            { Wallpaper = new Wallpaper_nt(); }
-        }
+        public IWallpaper Wallpaper { get; } = WallpaperFactory.Create();
 
         public void Dispose()
         {
@@ -93,11 +86,11 @@ namespace Wallpaper_Switcher.InternalLibs.BG_Switcher
         {
             var state = new SwitcherState()
             {
-                BG_Source = this.BG_Source,
-                Change_Interval = this.Change_Interval,
-                Elasped = this.Elasped,
-                Image_Index = this.Image_Index,
-                AutoSave_Interval = this.AutoSave_Interval
+                BG_Source = BG_Source,
+                Change_Interval = Change_Interval,
+                Elasped = Elasped,
+                Image_Index = Image_Index,
+                AutoSave_Interval = AutoSave_Interval
             };
             using (var stream = new FileStream(CONFIGPATH, FileMode.Create))
             {
