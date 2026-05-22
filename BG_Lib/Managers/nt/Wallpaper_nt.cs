@@ -29,14 +29,14 @@ namespace BG_Lib.Managers.nt
 
         public bool SetWallpaper(string filepath)
         {
-
             try
             {
-                Shared_Functions.Setup_Cache(filepath);
+                if (Shared_Functions.Is_Cache_Requried(filepath))
+                    filepath = Shared_Functions.CACHE_PATH;
                 try
-                { wallpaper.SetWallpaper(id, Shared_Functions.CACHE_PATH); }
+                { wallpaper.SetWallpaper(id, filepath); }
                 catch (COMException)
-                { Lagacy_Wallpaper.Set(Shared_Functions.CACHE_PATH); }
+                { Lagacy_Wallpaper.Set(filepath); }
             }
             catch { return false; }
             return true;
