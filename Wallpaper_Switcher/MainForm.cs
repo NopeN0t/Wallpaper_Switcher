@@ -54,7 +54,7 @@ namespace Wallpaper_Switcher
             //Load previous state
             if (File.Exists(bg_switcher.CONFIGPATH))
             {
-                if (bg_switcher.Load_State())
+                if (bg_switcher.LoadState())
                 {
                     LoadStateFailed = false;
                     Source_Box.Text = bg_switcher.BG_Source;
@@ -62,11 +62,11 @@ namespace Wallpaper_Switcher
                 }
                 else MessageBox.Show("LoadFailed\nImages path doesn't exists", "Wallpaper Switcher", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            AutoSave_Box.Text = bg_switcher.AutoSave_Interval.ToString();
+            AutoSave_Box.Text = bg_switcher.AutoSaveInterval.ToString();
             Timer_Box.Text = bg_switcher.Change_Interval.ToString();
             Timer.Text = "Timer      =  " + SecondsToString(bg_switcher.Change_Interval);
-            Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
-            NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
+            Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elapsed);
+            NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elapsed)}";
 
 
             //Auto start

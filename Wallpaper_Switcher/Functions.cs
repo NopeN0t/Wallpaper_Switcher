@@ -54,14 +54,14 @@ namespace Wallpaper_Switcher
                 {
                     this.Invoke(new Action(() =>
                     {
-                        Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
+                        Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elapsed);
                     }));
                 }
                 if (IconMenu.Visible)
                 {
                     this.Invoke(new Action(() =>
                     {
-                        NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
+                        NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elapsed)}";
                     }));
                 }
             }
@@ -97,8 +97,8 @@ namespace Wallpaper_Switcher
                     StartStop_Button.Text = "Start Timer";
                     StartStop_Strip.Text = "Start Timer";
 
-                    Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
-                    NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
+                    Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elapsed);
+                    NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elapsed)}";
                 }));
                 return true;
             }
@@ -110,9 +110,9 @@ namespace Wallpaper_Switcher
         }
         private void ResetTimer()
         {
-            bg_switcher.Elasped = 0;
-            Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
-            NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elasped)}";
+            bg_switcher.Elapsed = 0;
+            Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elapsed);
+            NextTimer_Strip.Text = $"Next in {SecondsToString(bg_switcher.Change_Interval - bg_switcher.Elapsed)}";
         }
 
         private void RefreshImages()

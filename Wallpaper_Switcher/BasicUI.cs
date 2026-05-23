@@ -115,9 +115,9 @@ namespace Wallpaper_Switcher
                 {
                     parsed = int.Parse(Elapsed_box.Text);
                     if (parsed >= bg_switcher.Change_Interval)
-                        bg_switcher.Elasped = bg_switcher.Change_Interval;
-                    bg_switcher.Elasped = parsed;
-                    Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elasped);
+                        bg_switcher.Elapsed = bg_switcher.Change_Interval;
+                    bg_switcher.Elapsed = parsed;
+                    Elapsed.Text = "Elapsed =  " + SecondsToString(bg_switcher.Elapsed);
                 }
             }
             catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -130,7 +130,7 @@ namespace Wallpaper_Switcher
                     return;
                 int parsed = int.Parse(AutoSave_Box.Text);
                 if (parsed <= 1) throw new Exception("Interval must be greater than 0");
-                bg_switcher.AutoSave_Interval = parsed;
+                bg_switcher.AutoSaveInterval = parsed;
                 bg_switcher.Save_State();
             }
             catch (Exception er) { MessageBox.Show("Error: " + er.Message, "Invaild Input", MessageBoxButtons.OK, MessageBoxIcon.Error); }
