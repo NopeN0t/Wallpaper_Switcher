@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallpaper_Switcher", "Wallp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BG_Lib", "BG_Lib\BG_Lib.csproj", "{E4E4FD22-9CB8-4253-899A-1A0453585E66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallpaper Switcher", "Wallpaper Switcher UI\Wallpaper Switcher.csproj", "{8BE8C919-814C-447D-996C-820580481EFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRoom", "TestRoom\TestRoom.csproj", "{3B9106BE-154F-45ED-AFD7-58FF173013D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,22 @@ Global
 		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|x64.ActiveCfg = Release|x64
 		{E4E4FD22-9CB8-4253-899A-1A0453585E66}.Release|x64.Build.0 = Release|x64
+		{8BE8C919-814C-447D-996C-820580481EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Debug|x64.Build.0 = Debug|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Release|x64.ActiveCfg = Release|Any CPU
+		{8BE8C919-814C-447D-996C-820580481EFF}.Release|x64.Build.0 = Release|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Debug|x64.Build.0 = Debug|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Release|x64.ActiveCfg = Release|Any CPU
+		{3B9106BE-154F-45ED-AFD7-58FF173013D0}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

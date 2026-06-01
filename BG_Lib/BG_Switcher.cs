@@ -10,8 +10,12 @@ namespace BG_Lib
     public partial class BG_Switcher : IDisposable
     {
         public readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.json");
+        //Seperated Format list from Imagemagick
+        public readonly HashSet<string> SupportedFormats = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        { ".jpg", ".jpeg", ".jxl", ".png", ".bmp", ".gif", ".avif", ".heic", "webp" };
+
         public string BG_Source { get; set; }
-        public int Change_Interval { get; set; } = 1800; //30 minutes in seconds
+        public int Change_Interval { get; set; } = 3600; //60 minutes in seconds
         public int Elapsed { get; set; } = 0; //Seconds
         public int Image_Index { get; set; } = 0;
         public int AutoSaveInterval { get; set; } = 300; //Backup every 5 minutes
@@ -23,12 +27,27 @@ namespace BG_Lib
         private readonly List<string> ImageList = new List<string>();
         private System.Timers.Timer timer;
         private readonly object timerLock = new object();
+
         public IWallpaper Wallpaper { get; } = WallpaperFactory.Create();
+        private Shuffler Shuffle { get; } = new Shuffler();
 
         public void Dispose()
         {
             Stop();
             ImageList.Clear();
+        }
+
+        /// <summary>
+        /// Shuffle Images Physically
+        /// </summary>
+        /// <param name="Undo">Un-shuffle images</param>
+        public void ShuffleImage(bool Undo = false)
+        {
+            if (Undo)
+                Shuffle.Reset();
+            else
+                Shuffle.Shuffle(BG_Source);
+            LocateImages(true); //Relocate Images
         }
 
         /// <summary>
@@ -47,6 +66,7 @@ namespace BG_Lib
             IsRunning = true; //Initial startup
             timer.Start();
         }
+        
         /// <summary>
         /// Handle main timer logic
         /// </summary>
@@ -72,6 +92,7 @@ namespace BG_Lib
             }
             if (IsRunning) timer.Start(); // Restart timer
         }
+        
         /// <summary>
         /// Stop main timer
         /// </summary>
@@ -80,6 +101,7 @@ namespace BG_Lib
             timer?.Stop();
             IsRunning = false;
         }
+        
         /// <summary>
         /// Set Background Image to given index in the list
         /// <para>Prevents overflow/underflow by setting index to 0</para>
@@ -93,6 +115,7 @@ namespace BG_Lib
             OnBackgroundChanged?.Invoke(this, ImageList[index]);
             Wallpaper.SetWallpaper(ImageList[index]);
         }
+        
         /// <summary>
         /// Saves current state to disk
         /// </summary>
@@ -112,6 +135,7 @@ namespace BG_Lib
                 serializer.WriteObject(stream, state);
             }
         }
+        
         /// <summary>
         /// Loads state from disk
         /// </summary>
@@ -141,6 +165,7 @@ namespace BG_Lib
                 return false;
             }
         }
+        
         /// <param name="AutoLocate">Locate Image if no images in list</param>
         /// <param name="ForceLocate">Clear and Relocate Images</param>
         /// <returns><see langword="List"/> of Image</returns>
@@ -151,6 +176,7 @@ namespace BG_Lib
             if (ForceLocate) { LocateImages(true); }
             return ImageList;
         }
+        
         /// <summary>
         /// Recursively searches for Supported Images within BG_Source
         /// <para>Do noting if already search once</para>
@@ -162,12 +188,9 @@ namespace BG_Lib
             if (ImageList.Count != 0 && !ForceLocate) return ImageList.Count; // Prevent searching if it already is
             ImageList.Clear(); //Always Clear images List on every search
 
-            //Locate Images Hard to read Edition
-            var Extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".jxl", ".png", ".bmp", ".gif", ".avif", ".heic", "webp" };
-
-            foreach (string file in Directory.GetFiles(BG_Source, "*.*", SearchOption.AllDirectories))
+            foreach (string file in Directory.GetFiles(BG_Source, "*.*", SearchOption.TopDirectoryOnly))
             {
-                if (Extensions.Contains(Path.GetExtension(file)))
+                if (SupportedFormats.Contains(Path.GetExtension(file)))
                     ImageList.Add(file);
             }
             return ImageList.Count; // Total Image
