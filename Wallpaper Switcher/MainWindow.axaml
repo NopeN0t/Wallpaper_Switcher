@@ -1,0 +1,71 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+        x:Class="Wallpaper_Switcher_UI.MainWindow"
+        SizeToContent="WidthAndHeight"
+        MinWidth="400" MinHeight="300" 
+        Title="Wallpaper Switcher">
+    <!--Main Grid-->
+    <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto,*,Auto">
+        <!--
+        Top Part
+        -->
+
+        <!--Source Path-->
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="6">
+            <TextBlock Text="Source :" Grid.Column="0" VerticalAlignment="Center"/>
+            <TextBox x:Name="PathBox" Grid.Column="1" Text="Folder Path" HorizontalAlignment="Stretch" Margin="5,0" IsReadOnly="True"/>
+            <Button x:Name="BrowseButton" Grid.Column="2" Content="Browse" Click="Browse_Click"/>
+            <Button x:Name="ShuffleButton" Grid.Column="3" Content="⇄" Click="ShuffleButton_Click" Margin="2,0"/>
+            <Button x:Name="ResetButton" Grid.Column="4" Content="⟲" Click="ResetButton_Click"/>
+        </Grid>
+        
+        <!--
+        Middle Part
+        -->
+
+        <!--Image Listings-->
+        <ListBox x:Name="ImageList"
+                 Grid.Row="1" Grid.Column="0"
+                 SelectionChanged="ImageList_SelectionChanged">
+        </ListBox>
+
+        <!--Preview-->
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gray" 
+                Margin="4" BorderThickness="1">
+            <Image x:Name="PreviewBox" Stretch="Uniform"/>
+        </Border>
+
+        <!--
+        Bottom Part
+        -->
+
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto,Auto"
+              Margin="6" Grid.ColumnSpan="2">
+
+            <!-- Timer Info -->
+            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,0,10,0">
+                <TextBlock x:Name="TimerLabel" Text="T: 0:00:00:00"/>
+                <TextBlock x:Name="ElapsedLabel" Text="E: 0:00:00:00"/>
+            </StackPanel>
+
+            <!-- Spacer -->
+            <Grid Grid.Column="1"/>
+
+            <!-- Image Controls -->
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Spacing="6">
+                    <Button x:Name="PrevButton" Content="◀" Width="32"/>
+                    <Button x:Name="SetButton" Content="Set" Width="60" HorizontalContentAlignment="Center"/>
+                    <Button x:Name="NextButton" Content="▶" Width="32"/>
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Orientation="Horizontal" Grid.Column="3" Spacing="6" Margin="10,0,0,0">
+                <Button x:Name="StartStopButton" Content="Start" Width="80" HorizontalContentAlignment="Center"/>
+                <Button x:Name="AdvancedButton" Content="⚙️" Width="40" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
