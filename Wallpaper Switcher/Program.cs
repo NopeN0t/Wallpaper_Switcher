@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace Wallpaper_Switcher_UI
+namespace Wallpaper_Switcher
 {
     internal class Program
     {

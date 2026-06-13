@@ -3,18 +3,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
-        x:Class="Wallpaper_Switcher_UI.MainWindow"
-        SizeToContent="WidthAndHeight"
+        x:Class="Wallpaper_Switcher.MainWindow"
+        Width="400" Height="300"
         MinWidth="400" MinHeight="300" 
-        Title="Wallpaper Switcher">
+        Title="Wallpaper Switcher"
+        Icon="/Assets/Icon_0.ico">
+    <!--SizeToContent="WidthAndHeight"-->
     <!--Main Grid-->
-    <Grid ColumnDefinitions="2*,3*" RowDefinitions="Auto,*,Auto">
+    <Grid ColumnDefinitions="*,2*,Auto" RowDefinitions="Auto,*,Auto">
         <!--
         Top Part
         -->
 
         <!--Source Path-->
-        <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="6">
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="8">
             <TextBlock Text="Source :" Grid.Column="0" VerticalAlignment="Center"/>
             <TextBox x:Name="PathBox" Grid.Column="1" Text="Folder Path" HorizontalAlignment="Stretch" Margin="5,0" IsReadOnly="True"/>
             <Button x:Name="BrowseButton" Grid.Column="2" Content="Browse" Click="Browse_Click"/>
@@ -35,7 +37,13 @@
         <!--Preview-->
         <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gray" 
                 Margin="4" BorderThickness="1">
-            <Image x:Name="PreviewBox" Stretch="Uniform"/>
+            <Grid>
+                <Image x:Name="PreviewBox" Stretch="Uniform"/>
+                <TextBlock Text="No Preview" Foreground="Gray"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           IsEnabled="False"/>
+            </Grid>
         </Border>
 
         <!--
@@ -45,10 +53,11 @@
         <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto,Auto"
               Margin="6" Grid.ColumnSpan="2">
 
-            <!-- Timer Info -->
+            <!-- Timer and Info -->
             <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,0,10,0">
                 <TextBlock x:Name="TimerLabel" Text="T: 0:00:00:00"/>
                 <TextBlock x:Name="ElapsedLabel" Text="E: 0:00:00:00"/>
+                <TextBlock x:Name="ProgressLabel" Text="P: 0000/0000"/>
             </StackPanel>
 
             <!-- Spacer -->
@@ -64,8 +73,45 @@
             <!-- Actions -->
             <StackPanel Orientation="Horizontal" Grid.Column="3" Spacing="6" Margin="10,0,0,0">
                 <Button x:Name="StartStopButton" Content="Start" Width="80" HorizontalContentAlignment="Center"/>
-                <Button x:Name="AdvancedButton" Content="⚙️" Width="40" HorizontalContentAlignment="Center"/>
+                <Button x:Name="AdvancedButton" Content="⚙️" Click="AdvancedButton_Click" Width="40" HorizontalContentAlignment="Center"/>
             </StackPanel>
         </Grid>
+
+        <!---->
+        <Border x:Name="AdvancedPanel" Grid.RowSpan="10" Grid.Column="2"
+            Width="0" IsVisible="False"
+            BorderBrush="Gray" BorderThickness="1"
+            Margin="8">
+
+                <Grid ColumnDefinitions="Auto,*,Auto" 
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                      ShowGridLines="False" Margin="4"
+                      RowSpacing="4" ColumnSpacing="4">
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Config" VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Timer" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TimerBox" Grid.Row="1" Grid.Column="1"/>
+                    <Button x:Name="SetTimer" Grid.Row="1" Grid.Column="2" Content="Set"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Progress" VerticalAlignment="Center"/>
+                    <TextBox x:Name="ProgressBox" Grid.Row="2" Grid.Column="1"/>
+                    <Button x:Name="SetProgress" Grid.Row="2" Grid.Column="2" Content="Set"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Save" VerticalAlignment="Center"/>
+                    <TextBox x:Name="AutoSaveBox" Grid.Row="3" Grid.Column="1"/>
+                    <Button x:Name="SetAutoSave" Grid.Row="3" Grid.Column="2" Content="Set"/>
+           
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Monitior" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="MonitorSelect" SelectedIndex="0" 
+                              Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch"
+                              Grid.ColumnSpan="2" IsEnabled="False">
+
+                        <ComboBoxItem>All monitor</ComboBoxItem>
+                    </ComboBox>
+
+                    <CheckBox x:Name="AutoRunCheck" Grid.Row="5" Grid.ColumnSpan="3" Content="Run on startup"/>
+                </Grid>
+        </Border>
     </Grid>
 </Window>
