@@ -55,7 +55,7 @@ namespace BG_Lib
         /// </summary>
         /// <param name="LoadLastSession">Load last session params if available</param>
         /// <exception cref="FileNotFoundException"></exception>
-        public void Start(bool LoadLastSession = true)
+        public void Start(bool LoadLastSession = false)
         {
             if (IsRunning) return;
             if (LoadLastSession) LoadState(); //Load last instance state

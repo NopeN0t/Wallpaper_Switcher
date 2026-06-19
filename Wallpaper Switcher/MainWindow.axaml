@@ -21,7 +21,7 @@
             <TextBox x:Name="PathBox" Grid.Column="1" Text="Folder Path" HorizontalAlignment="Stretch" Margin="5,0" IsReadOnly="True"/>
             <Button x:Name="BrowseButton" Grid.Column="2" Content="Browse" Click="Browse_Click"/>
             <Button x:Name="ShuffleButton" Grid.Column="3" Content="⇄" Click="ShuffleButton_Click" Margin="2,0"/>
-            <Button x:Name="ResetButton" Grid.Column="4" Content="⟲" Click="ResetButton_Click"/>
+            <Button x:Name="UnshuffleButton" Grid.Column="4" Content="⟲" Click="UnshuffleButton_Click"/>
         </Grid>
         
         <!--
@@ -39,10 +39,12 @@
                 Margin="4" BorderThickness="1">
             <Grid>
                 <Image x:Name="PreviewBox" Stretch="Uniform"/>
+                <!--
                 <TextBlock Text="No Preview" Foreground="Gray"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            IsEnabled="False"/>
+                           -->
             </Grid>
         </Border>
 
@@ -72,7 +74,7 @@
 
             <!-- Actions -->
             <StackPanel Orientation="Horizontal" Grid.Column="3" Spacing="6" Margin="10,0,0,0">
-                <Button x:Name="StartStopButton" Content="Start" Width="80" HorizontalContentAlignment="Center"/>
+                <Button x:Name="StartStopButton" Content="Start" Click="StartStopButton_Click" Width="80" HorizontalContentAlignment="Center"/>
                 <Button x:Name="AdvancedButton" Content="⚙️" Click="AdvancedButton_Click" Width="40" HorizontalContentAlignment="Center"/>
             </StackPanel>
         </Grid>
@@ -84,7 +86,7 @@
             Margin="8">
 
                 <Grid ColumnDefinitions="Auto,*,Auto" 
-                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                       ShowGridLines="False" Margin="4"
                       RowSpacing="4" ColumnSpacing="4">
 
@@ -111,6 +113,8 @@
                     </ComboBox>
 
                     <CheckBox x:Name="AutoRunCheck" Grid.Row="5" Grid.ColumnSpan="3" Content="Run on startup"/>
+                    <TextBlock x:Name="SelectedImageLabel" Grid.Row="6" Grid.ColumnSpan="3" Text="Selected Image : 0000/0000"/>
+                    <Button x:Name="ResetTimerButton" Click="ResetTimerButton_Click" Grid.Row="7" Grid.ColumnSpan="3" Content="Reset Timer" HorizontalAlignment="Right"/>
                 </Grid>
         </Border>
     </Grid>
