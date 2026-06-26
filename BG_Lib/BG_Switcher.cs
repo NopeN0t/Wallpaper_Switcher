@@ -85,8 +85,8 @@ namespace BG_Lib
                     if (Image_Index >= ImageList.Count - 1 || Image_Index < 0) //Loop around
                         Image_Index = 0;
 
-                    Change_BG(Image_Index);
                     Image_Index++; //No C Programming moment here for readablity
+                    Change_BG(Image_Index);
                     Elapsed = 0; // Reset state
                 }
             }
